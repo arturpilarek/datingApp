@@ -4,8 +4,8 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 
-## General info
-This project is simple Lorem ipsum dolor generator.
+## General info About dating app
+This project is made by Group 3
 
 ## Technologies
 Project is created with:
