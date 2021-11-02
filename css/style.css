@@ -1,1 +1,33 @@
 /* Main style */
+
+/* set google font */
+html, body, button{
+    font-family: 'Roboto', sans-serif;
+}
+/* Stretch body */
+html, body{
+    margin:0;
+    padding:0;
+    height:100vh;
+}
+/* Default buttons */
+button{
+    margin:10px 0;
+    padding:10px;
+    font-size:1.2em;
+    border:0;
+    border-radius:15px;
+}
+button:hover{
+    background:black;
+    color:white;
+    cursor: pointer;
+}
+/* Select user page */
+.selectUserContainer{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    height:100vh;
+    padding:20px;
+}
