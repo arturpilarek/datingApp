@@ -1,25 +1,42 @@
-function clearContent(){
-    // Clear all body child elements
-    const pageBody = document.body;
-    pageBody.innerHTML = "";
+// Define localstorage
+const localStorage = window.localStorage;
+if(localStorage.getItem('mylist')){
+    const myList = localStorage.getItem('mylist');
+    console.log('From localstorage: ', JSON.parse(myList));
+}else{
+    console.log('You have nothing on localStorage');
+}
+
+// User wants to clear storage:
+function clearStorage(){
+    localStorage.clear();
+    console.log("You have clear your localstorage");
+    clearBody();
+    selectUser();
+}
+
+// Clear body child elements to update
+function clearBody(){
+    document.body.innerHTML = "";
 }
 
 // Get random users via API
 function getRandUserList(fetchUrl){
+    clearBody();
     async function getList() {
         const response = await fetch(fetchUrl);
         const data = await response.json();
-        const result = data.results;
-        console.log(result);
+        localStorage.setItem('mylist', JSON.stringify(data));
+        const mylist = localStorage.getItem('mylist');
+        console.log('From localstorage: ', JSON.parse(mylist));
     };
     // Call the actual function
     getList();
+
 }
 
 // When which userprofile has been choosen
 function selectedUser(selectedUser){
-    // Clear contents
-    clearContent();
     // functions to run on which user has been choosen
     let fetchUrl = "";
     switch(selectedUser) {
@@ -41,10 +58,8 @@ function selectedUser(selectedUser){
     }
     getRandUserList(fetchUrl);
 }
-// First, select user profile
+// First run, create and append select user profile buttons
 function selectUser(){
-
-    clearContent();
 
     // Create select userprofile buttons and addeventlisteners
     const searchFemalesBtn = document.createElement('BUTTON');
@@ -59,10 +74,14 @@ function selectUser(){
     searchBoth.innerHTML = "User searching both";
     searchBoth.addEventListener('click', function(){ selectedUser('both'); });
 
+    const clearStorageBtn = document.createElement('BUTTON');
+    clearStorageBtn.innerHTML = "Clear storageButton";
+    clearStorageBtn.addEventListener('click', clearStorage);
+
     // Create button container and append the select user buttons
     const buttonContainer = document.createElement('DIV');
     buttonContainer.classList.add('selectUserContainer');
-    buttonContainer.append(searchFemalesBtn, searchMalesBtn, searchBoth);
+    buttonContainer.append(searchFemalesBtn, searchMalesBtn, searchBoth, clearStorageBtn);
 
     // Append the select user buttons
 
