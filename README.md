@@ -3,8 +3,7 @@
 * [Functions](#functions)
 
 ## Functions
-* Choose wchich mockup user you wanna use
-* Lorem version: 12.3
-* Ipsum version: 2.33
-* Ament library version: 999
-
+* Choose which mockup user you wanna use
+* Get a list of images depending on which user you choose
+* Save the list in a localStorage
+* Clear the localStorage
