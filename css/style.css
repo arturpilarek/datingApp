@@ -1,4 +1,5 @@
 /* Main style */
+*{box-sizing: border-box;}
 
 /* set google font */
 html, body, button{
@@ -24,10 +25,16 @@ button:hover{
     cursor: pointer;
 }
 /* Select user page */
-.selectUserContainer{
+.container{
     display:flex;
     flex-direction: column;
     justify-content: center;
     height:100vh;
     padding:20px;
+}
+
+/* The image */
+.image{
+    width:100vw;
+    height:auto;
 }

@@ -1,21 +1,44 @@
 // Define localstorage
 const localStorage = window.localStorage;
-if(localStorage.getItem('mylist')){
-    const myList = localStorage.getItem('mylist');
-    console.log('From localstorage: ', JSON.parse(myList));
+if(localStorage.getItem('images')){
+    // Run if there is images on localstorage
+    showLocal();
+    createClearStorageButton();
 }else{
+    selectUser();
     console.log('You have nothing on localStorage');
+}
+// Create clear storage button
+function createClearStorageButton(){
+    //Clear the storage button
+    const clearStorageBtn = document.createElement('BUTTON');
+    clearStorageBtn.innerHTML = "Clear storage";
+    clearStorageBtn.addEventListener('click', clearStorage);
+
+    // Create container and append to body
+    const containerDiv = document.createElement('DIV');
+    containerDiv.classList.add('container');
+    containerDiv.append(clearStorageBtn);
+
+    document.body.append(containerDiv);
+}
+
+// Show localStorage:
+function showLocal(){
+    console.log(localStorage);
 }
 
 // User wants to clear storage:
 function clearStorage(){
     localStorage.clear();
+
+    console.clear();
     console.log("You have clear your localstorage");
     clearBody();
     selectUser();
 }
 
-// Clear body child elements to update
+// Clear body child elements
 function clearBody(){
     document.body.innerHTML = "";
 }
@@ -26,13 +49,12 @@ function getRandUserList(fetchUrl){
     async function getList() {
         const response = await fetch(fetchUrl);
         const data = await response.json();
-        localStorage.setItem('mylist', JSON.stringify(data));
-        const mylist = localStorage.getItem('mylist');
-        console.log('From localstorage: ', JSON.parse(mylist));
+        localStorage.setItem('images', JSON.stringify(data.results));
+        const images = localStorage.getItem('images');
+        console.log('From localstorage: ', JSON.parse(images));
     };
     // Call the actual function
     getList();
-
 }
 
 // When which userprofile has been choosen
@@ -56,7 +78,9 @@ function selectedUser(selectedUser){
             console.log("Select default has been triggered, this shouldn't be possible");
             break;
     }
+
     getRandUserList(fetchUrl);
+    createClearStorageButton();
 }
 // First run, create and append select user profile buttons
 function selectUser(){
@@ -74,19 +98,13 @@ function selectUser(){
     searchBoth.innerHTML = "User searching both";
     searchBoth.addEventListener('click', function(){ selectedUser('both'); });
 
-    const clearStorageBtn = document.createElement('BUTTON');
-    clearStorageBtn.innerHTML = "Clear storageButton";
-    clearStorageBtn.addEventListener('click', clearStorage);
 
-    // Create button container and append the select user buttons
-    const buttonContainer = document.createElement('DIV');
-    buttonContainer.classList.add('selectUserContainer');
-    buttonContainer.append(searchFemalesBtn, searchMalesBtn, searchBoth, clearStorageBtn);
+    // Create button container and append the user and clear buttons
+    const containerDiv = document.createElement('DIV');
+    containerDiv.classList.add('container');
+    containerDiv.append(searchFemalesBtn, searchMalesBtn, searchBoth);
 
-    // Append the select user buttons
+    // Append the button container
 
-    document.body.append(buttonContainer);
+    document.body.append(containerDiv);
 }
-
-// This is probably a refresh of the page, run select user function:
-selectUser();
