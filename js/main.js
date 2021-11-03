@@ -52,7 +52,7 @@ function createClearStorageButton(){
 
 // Show localStorage to check:
 function showLocal(){
-    console.log(localStorage);
+    console.log(JSON.parse(localStorage.images));
 }
 
 // User wants to clear storage:
@@ -79,6 +79,7 @@ function getRandUserList(fetchUrl){
         localStorage.setItem('images', JSON.stringify(data.results));
         const images = localStorage.getItem('images');
         showImage();
+        showLocal();
     };
     // Call the actual function
     getList();
