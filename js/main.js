@@ -1,9 +1,39 @@
 // Define localstorage
 const localStorage = window.localStorage;
+
+if(localStorage.getItem('currentImage')){
+    const currentImage = localStorage.getItem('currentImage');
+    showImage();
+}
+
+function showImage(){
+    // retrive the images from localStorage
+    const images = JSON.parse(localStorage.images);
+
+    // Create the imageElement and assign class
+    const image = document.createElement('img');
+    image.classList.add('image');
+
+    // Set the source
+    image.src = images[0].picture.large;
+
+    // Get containerDiv and append image
+    const containerDiv = document.createElement('DIV');
+    containerDiv.classList.add('container');
+
+    containerDiv.append(image);
+    document.body.append(containerDiv);
+
+    // Create a like button and skip button
+
+
+    createClearStorageButton();
+}
+
 if(localStorage.getItem('images')){
     // Run if there is images on localstorage
     showLocal();
-    createClearStorageButton();
+    showImage();
 }else{
     selectUser();
     console.log('You have nothing on localStorage');
@@ -16,14 +46,11 @@ function createClearStorageButton(){
     clearStorageBtn.addEventListener('click', clearStorage);
 
     // Create container and append to body
-    const containerDiv = document.createElement('DIV');
-    containerDiv.classList.add('container');
+    const containerDiv = document.querySelector('.container');
     containerDiv.append(clearStorageBtn);
-
-    document.body.append(containerDiv);
 }
 
-// Show localStorage:
+// Show localStorage to check:
 function showLocal(){
     console.log(localStorage);
 }
@@ -51,7 +78,7 @@ function getRandUserList(fetchUrl){
         const data = await response.json();
         localStorage.setItem('images', JSON.stringify(data.results));
         const images = localStorage.getItem('images');
-        console.log('From localstorage: ', JSON.parse(images));
+        showImage();
     };
     // Call the actual function
     getList();
@@ -80,7 +107,6 @@ function selectedUser(selectedUser){
     }
 
     getRandUserList(fetchUrl);
-    createClearStorageButton();
 }
 // First run, create and append select user profile buttons
 function selectUser(){
