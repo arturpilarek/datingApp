@@ -1,18 +1,18 @@
 // Define consts on first run
 const localStorage = window.localStorage;
 
+// Number of images we want to retrive  :
+const numberOfImages = 6;
+
 // incase refresh page
 if(localStorage.getItem('currentImage')){
-    console.log(localStorage.getItem('currentImage'));
-    console.log("You have refreshed page or pushed skip, currentImage: " + localStorage.getItem('currentImage'));
+    console.log('Current image is ' + localStorage.getItem('currentImage'));
 }else{
     localStorage.setItem('currentImage', 0);
-    console.log("No currentImage");
 }
 // First time run or refreshed page
 if(localStorage.getItem('images')){
     // Run if there is images on localstorage
-    showLocal();
     showImage();
 }else{
     // Run this if the user hasnt choosen mockup user
@@ -22,25 +22,49 @@ if(localStorage.getItem('images')){
 
 // Like the image functions
 function likeTheImage(){
+    // get currentImage number:
+    const currentImage = parseInt(localStorage.getItem('currentImage'));
 
     // Code to save the image to local storage and update currentImage
+    if(localStorage.getItem('likedImages')){
+        // get the list from localstorage:
+        const likedImages = JSON.parse(localStorage.getItem('likedImages'));
+        // Put liked image into likedImages:
+        likedImages.push(currentImage);
+        // Update liked images list on localstorage
+        localStorage.setItem('likedImages', JSON.stringify(likedImages));
 
+        console.log(likedImages);
+    }else{
+        const likedImages = [];
+        likedImages.push(currentImage);
+        // Update liked images list on localstorage
+        localStorage.setItem('likedImages', JSON.stringify(likedImages));
+        console.log('There is no LikedImages');
+        console.log(localStorage.getItem('likedImages'));
+    };
+    skipTheImage();
     console.log('You have pushed like button');
 }
 
+
+// Function to skip the image to local storage and update currentImage
 function skipTheImage(){
-
-
-    // Code to skip the image to local storage and update currentImage
     // Get currentimage and add 1 to it
     currentImage = parseInt(localStorage.getItem('currentImage'));
     currentImage ++;
-    localStorage.setItem('currentImage', currentImage);
 
     // Save the current to localStorage
+    localStorage.setItem('currentImage', currentImage);
 
     // Show the next image:
     showImage();
+}
+
+// Rest currentNumber to 0;
+function resetCurrentImage(){
+    localStorage.setItem("currentImage", 0);
+    console.log("Resetted current image to 0");
 }
 
 // Create like & skip button
@@ -80,25 +104,42 @@ function showImage(){
     // Refresh page and build from scratch:
     clearBody();
 
-    // Set default number
-    let currentImage = 0;
-    currentImage = parseInt(localStorage.getItem('currentImage'));
-    // Create the imageElement and assign class
-    const image = document.createElement('img');
-    image.classList.add('image');
+    // Get Current image number
+    let currentImage = parseInt(localStorage.getItem('currentImage'));
+
 
     // retrive the images from localStorage
     const images = JSON.parse(localStorage.images);
 
+    // if current image number is the last image, reset to 0
+    let maxNumber = images.length;
+    if(currentImage < maxNumber){
+        console.log('Current image is smaller than length(number) of images');
+    }else{
+        resetCurrentImage();
+        currentImage = parseInt(localStorage.getItem('currentImage'));
+    }
+
+    // Create the imageElement and assign class
+    const image = document.createElement('img');
+    image.classList.add('image');
 
     // Set the source
     image.src = images[currentImage].picture.large;
 
-    // Get containerDiv and append image
+    // Create containerDiv
     const containerDiv = document.createElement('DIV');
     containerDiv.classList.add('container');
 
-    containerDiv.append(image);
+    // Create name element
+    const nameTag = document.createElement('p');
+    nameTag.classList.add('nameTag');
+    nameTag.innerHTML = images[currentImage].name.first + ' ' + images[currentImage].name.last;
+
+    // Append the image and name tag
+    containerDiv.append(image,nameTag);
+
+    // Append the container to body
     document.body.append(containerDiv);
 
     // Create a like button and skip button code comes here
@@ -161,9 +202,9 @@ function getRandUserList(fetchUrl){
         // Make the response to Json
         const data = await response.json();
         // Stringify the the fetched data results and save to localStorage
-        await localStorage.setItem('images', JSON.stringify(data.results));
+        localStorage.setItem('images', JSON.stringify(data.results));
         // Show the image
-        await showImage();
+        showImage();
         // Console log the localStorage
         showLocal();
     };
@@ -173,19 +214,20 @@ function getRandUserList(fetchUrl){
 
 // When which userprofile has been choosen
 function selectedUser(selectedUser){
+
     // Decide which url to run on which user has been choosen
     let fetchUrl = "";
     switch(selectedUser) {
         case 'females':
             console.log("You have choosen search females");
-            fetchUrl = "https://randomuser.me/api/?gender=female&nat=DK&results=24&inc=name,picture";
+            fetchUrl = 'https://randomuser.me/api/?gender=female&nat=DK&results=' + numberOfImages+ '&inc=name,picture';
             break;
         case 'males':
-            fetchUrl = "https://randomuser.me/api/?gender=male&nat=DK&results=24&inc=name,picture";
+            fetchUrl = 'https://randomuser.me/api/?gender=male&nat=DK&results=' + numberOfImages+ '&inc=name,picture';
             console.log("You have choosen search males");
             break;
         case 'both':
-        fetchUrl = "https://randomuser.me/api/?nat=DK&results=24&inc=name,picture";
+        fetchUrl = 'https://randomuser.me/api/?nat=DK&results=' + numberOfImages+ '&inc=name,picture';
             console.log("You have choosen search both");
             break;
         default:
