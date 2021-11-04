@@ -7,6 +7,8 @@ html, body, button{
 }
 /* Stretch body */
 html, body{
+    display:flex;
+    justify-content: center;
     margin:0;
     padding:0;
     height:100vh;
@@ -29,8 +31,10 @@ button:hover{
     display:flex;
     flex-direction: column;
     justify-content: center;
-    height:100vh;
+    width:50vw;
+    height:auto;
     padding:20px;
+    margin:15px auto;
 }
 
 /* The image */
