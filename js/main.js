@@ -148,11 +148,28 @@ function showImage(){
 
     // Check if there is liked Images:
     if(localStorage.getItem('likedImages')){
-        createShowLikedButton();
+        const likedImages = JSON.parse(localStorage.getItem('likedImages'));
+        if(likedImages.length == 0){
+        }else{
+            createShowLikedButton();
+
+        }
     }
 
     // Create a clear storage button and append
     createClearStorageButton();
+}
+
+// Remove clicked image from liked
+function removeImageFromLiked(id){
+    const likedImages = JSON.parse(localStorage.getItem('likedImages'));
+    const index = likedImages.indexOf(id);
+    if (index > -1) {
+      likedImages.splice(index, 1);
+    };
+    console.log("Id of removed liked Image : ", id);
+    localStorage.setItem('likedImages', JSON.stringify(likedImages));
+    showLikedImages();
 }
 
 // Show liked images
@@ -167,28 +184,33 @@ function showLikedImages(){
 
     // Liked images array in id
     const likedImages = JSON.parse(localStorage.getItem('likedImages'));
-    console.log(likedImages);
+    if(likedImages.length == 0){
+        showImage();
+    }else{
 
-    // retrive the images from localStorage
-    const images = JSON.parse(localStorage.images);
+        console.log(likedImages);
 
-    // Create images and append the to container
-    likedImages.forEach(imageNumber => {
-        // Create image element
-        const likedImage = document.createElement('img');
-        likedImage.src = images[imageNumber].picture.large;
-        likedImage.classList.add('likedImage');
-        likedImage.value = imageNumber;
-        likedImage.addEventListener('click', () => {
-            console.log(likedImage.value);
+        // retrive the images from localStorage
+        const images = JSON.parse(localStorage.images);
+
+        // Create images and append the to container
+        likedImages.forEach(imageNumber => {
+            // Create image element
+            const likedImage = document.createElement('img');
+            likedImage.src = images[imageNumber].picture.large;
+            likedImage.classList.add('likedImage');
+            likedImage.value = imageNumber;
+            likedImage.addEventListener('click', () => {
+                removeImageFromLiked(likedImage.value);
+            });
+
+            // Append The image on containerDiv
+            containerDiv.append(likedImage);
         });
 
-        // Append The image on containerDiv
-        containerDiv.append(likedImage);
-    });
-
-    // Create a clear storage button and append
-    createClearStorageButton();
+        // Create a clear storage button and append
+        createClearStorageButton();
+    }
 }
 
 // Create show liked imagesbutton
