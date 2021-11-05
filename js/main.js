@@ -146,8 +146,63 @@ function showImage(){
     createLikeButton();
 
 
+    // Check if there is liked Images:
+    if(localStorage.getItem('likedImages')){
+        createShowLikedButton();
+    }
+
     // Create a clear storage button and append
     createClearStorageButton();
+}
+
+// Show liked images
+function showLikedImages(){
+    // Get rid of elements
+    clearBody();
+
+    // Create containerDiv
+    const containerDiv = document.createElement('DIV');
+    containerDiv.classList.add('container');
+    document.body.append(containerDiv);
+
+    // Liked images array in id
+    const likedImages = JSON.parse(localStorage.getItem('likedImages'));
+    console.log(likedImages);
+
+    // retrive the images from localStorage
+    const images = JSON.parse(localStorage.images);
+
+    // Create images and append the to container
+    likedImages.forEach(imageNumber => {
+        // Create image element
+        const likedImage = document.createElement('img');
+        likedImage.src = images[imageNumber].picture.large;
+        likedImage.classList.add('likedImage');
+        likedImage.value = imageNumber;
+        likedImage.addEventListener('click', () => {
+            console.log(likedImage.value);
+        });
+
+        // Append The image on containerDiv
+        containerDiv.append(likedImage);
+    });
+
+    // Create a clear storage button and append
+    createClearStorageButton();
+}
+
+// Create show liked imagesbutton
+function createShowLikedButton(){
+
+    // Create button element
+    const showLikedButton = document.createElement('BUTTON');
+    showLikedButton.innerHTML = "Show liked";
+    showLikedButton.addEventListener('click', showLikedImages);
+
+    // Get the container
+    const containerDiv = document.querySelector('.container');
+    containerDiv.append(showLikedButton);
+
 }
 
 
@@ -158,7 +213,7 @@ function createClearStorageButton(){
     clearStorageBtn.innerHTML = "Clear storage";
     clearStorageBtn.addEventListener('click', clearStorage);
 
-    // Create container and append to body
+    // Get container and append to body
     const containerDiv = document.querySelector('.container');
     containerDiv.append(clearStorageBtn);
 }
