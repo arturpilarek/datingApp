@@ -2,7 +2,7 @@
 const localStorage = window.localStorage;
 
 // Number of images we want to retrive  :
-const numberOfImages = 6;
+const numberOfImages = 24;
 
 // incase refresh page
 if(localStorage.getItem('currentImage')){
