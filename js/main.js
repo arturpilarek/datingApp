@@ -107,14 +107,13 @@ function showImage(){
     // Get Current image number
     let currentImage = parseInt(localStorage.getItem('currentImage'));
 
-
     // retrive the images from localStorage
     const images = JSON.parse(localStorage.images);
 
     // if current image number is the last image, reset to 0
     let maxNumber = images.length;
     if(currentImage < maxNumber){
-        console.log('Current image is smaller than length(number) of images');
+        //console.log('Current image is smaller than length(number) of images');
     }else{
         resetCurrentImage();
         currentImage = parseInt(localStorage.getItem('currentImage'));
