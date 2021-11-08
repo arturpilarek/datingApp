@@ -1,10 +1,7 @@
 /* Main style */
 *{box-sizing: border-box;}
-
 /* set google font */
-html, body, button{
-    font-family: 'Roboto', sans-serif;
-}
+html, body, button{font-family: 'Roboto', sans-serif;}
 /* Stretch body */
 html, body{
     display:flex;
@@ -26,7 +23,7 @@ button:hover{
     color:white;
     cursor: pointer;
 }
-/* Select user page */
+/* Container */
 .container{
     display:flex;
     flex-direction: column;
@@ -36,13 +33,12 @@ button:hover{
     padding:20px;
     margin:15px auto;
 }
+/* Button container */
 .buttonContainer{
     display:flex;
     justify-content: space-around;
 }
-.buttonContainer button{
-    width:40%;
-}
+.buttonContainer button{width:40%;}
 
 /* The image */
 .image{
