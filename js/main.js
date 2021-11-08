@@ -98,8 +98,39 @@ function createButtonContainer(){
     containerDiv.append(buttonContainer);
 }
 
+
+//Keyboard add keyboard functions
+function addKeyboardFunctions(e){
+    document.addEventListener('keyup', function(event) {
+        const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
+        switch(key){
+            case "ArrowUp":
+            // Like the image
+                //setTimeout(() => {likeTheImage();}, 1000);
+                console.log("You have pressed arrow up key");
+            break;
+            case "ArrowDown":
+                console.log("You have pressed arrow down key");
+            break;
+            case "ArrowLeft":
+                console.log("You have pressed arrow left key");
+            break;
+            case "ArrowRight":
+            // Skip the image
+                skipTheImage();
+                console.log("You have pressed arrow right key");
+            break;
+            default:
+                console.log("No arrowkey")
+            break;
+        }
+    });
+}
+
 // This function shows the actual image
 function showImage(){
+
+    // addKeyboardFunctions();
 
     // Refresh page and build from scratch:
     clearBody();
@@ -133,7 +164,7 @@ function showImage(){
     // Create name element
     const nameTag = document.createElement('p');
     nameTag.classList.add('nameTag');
-    nameTag.innerHTML = images[currentImage].name.first + ' ' + images[currentImage].name.last;
+    nameTag.innerHTML = currentImage + images[currentImage].name.first + ' ' + images[currentImage].name.last;
 
     // Append the image and name tag
     containerDiv.append(image,nameTag);
@@ -158,6 +189,8 @@ function showImage(){
 
     // Create a clear storage button and append
     createClearStorageButton();
+
+
 }
 
 // Remove clicked image from liked
